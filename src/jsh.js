@@ -199,7 +199,10 @@ function runJavaScript(token, job) {
     throw 'Token length < 1 - ' + token.length;
   }
   var end = token.length;
-  if(token[token.length - 1].type === Tokenizer.OPERATOR || token[token.length - 1].type === Tokenizer.HIDDEN) {
+  if(
+    token[token.length - 1].type === Tokenizer.OPERATOR ||
+    token[token.length - 1].type === Tokenizer.HIDDEN
+  ) {
     end = token.length - 1;
   }
 
@@ -352,10 +355,20 @@ function runTokens(tokens, pos) {
       jsh.log('execing cmd ' + cmd);
       try {
         if(job) {
-          job.proc({ program: cmd, arguments: args, environment: jsh.environment(), cwd: process.cwd() });
+          job.proc({
+            program: cmd,
+            arguments: args,
+            environment: jsh.environment(),
+            cwd: process.cwd()
+          });
         } else {
           var procjob = new Job.Job();
-          procjob.proc({ program: cmd, arguments: args, environment: jsh.environment(), cwd: process.cwd() });
+          procjob.proc({
+            program: cmd,
+            arguments: args,
+            environment: jsh.environment(),
+            cwd: process.cwd()
+          });
           procjob.exec(
             Job.FOREGROUND,
             function(arg) {
@@ -542,7 +555,9 @@ function runCommands(commands, line) {
     if(!silent && (output !== undefined || jsh.config.printUndefinedReturn)) {
       if(output instanceof Object) {
         try {
-          output = jsh.config.prettyReturnValues ? JSON.stringify(output, null, jsh.config.prettyReturnValues) : JSON.stringify(output);
+          output = jsh.config.prettyReturnValues
+            ? JSON.stringify(output, null, jsh.config.prettyReturnValues)
+            : JSON.stringify(output);
         } catch(err) {}
       }
       jsh.jshNative.stdout(output, '\n');
