@@ -1,35 +1,32 @@
 function match(opt, arg) {
-    var res = new RegExp(opt + "=(.*)").exec(arg);
-    if (res)
-        return res[1];
-    return undefined;
+  var res = new RegExp(opt + '=(.*)').exec(arg);
+  if(res) return res[1];
+  return undefined;
 }
 
-if (typeof process === 'undefined')
-    process.exit(1);
+if(typeof process === 'undefined') process.exit(1);
 
 var Service = require('Service');
 
 var modulePath;
 var socketFile;
-for (var i=1; i<process.argv.length; ++i) {
-    var arg = process.argv[i];
-    var res = match("--module-path", arg);
-    if (res) {
-        modulePath = res;
-        continue;
-    }
-    res = match("--socket-file", arg);
-    if (res) {
-        socketFile = res;
-        continue;
-    }
+for(var i = 1; i < process.argv.length; ++i) {
+  var arg = process.argv[i];
+  var res = match('--module-path', arg);
+  if(res) {
+    modulePath = res;
+    continue;
+  }
+  res = match('--socket-file', arg);
+  if(res) {
+    socketFile = res;
+    continue;
+  }
 }
-if (!modulePath || !socketFile) {
-    process.exit(2);
+if(!modulePath || !socketFile) {
+  process.exit(2);
 }
 
 service = Service.launchService(modulePath, socketFile);
-console.log("CALLING STARTSERVICE", service);
-if (!service)
-    process.exit(3);
+console.log('CALLING STARTSERVICE', service);
+if(!service) process.exit(3);
